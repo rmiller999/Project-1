@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Yahtzee</title>
+  <link href="https://fonts.googleapis.com/css?family=Concert+One&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="icon" href="img/favicon.png">
+</head>
+<body>
+  <img id="title" src="img/yahtzee_logo.png" alt="">
+
+  <button class="btn-3d yellow" id="mybtn">Instructions</button>
+
+  <!-- The Modal -->
+  <div id="myModal" class="modal">
+
+    <!-- Modal content -->
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>Yahtzee Instructions</h2>
+      </div>
+      <span class="close">&times;</span>
+      <iframe src="img/YAHTZEERULESv2.pdf" frameborder="0"></iframe>
+    </div>
+
+  </div>
+
+  <button class="btn-3d yellow" id="diceroll">Roll Dice</button>
+  <h2 id="rollsleft">Rolls Left: 3</h2>
+
+  <div id="diceboard">
+      <img id="dice1" src="img/dice1.png" alt="">
+      <img id="dice2" src="img/dice2.png" alt="">
+      <img id="dice3" src="img/dice3.png" alt="">
+      <img id="dice4" src="img/dice4.png" alt="">
+      <img id="dice5" src="img/dice5.png" alt="">
+  </div>
+  <button class="btn-3d red" id="reset">Reset Dice</button>
+
+  <h2 id="playerturn"></h2>
+  <h1 id="yahtzeemsg"></h1>
+
+  <div id="scoresheet1">
+    <h2>Player 1</h2>
+    <hr>
+    <h3>Upper Section</h3>
+    <p>Ones: <input type="number" min="0" max="5" value="0" class="p1totals" id="p1ones"></input></p>
+    <p>Twos: <input type="number" min="0" max="5" value="0" class="p1totals"></input></p>
+    <p>Threes: <input type="number" min="0" max="5" value="0" class="p1totals"></input></p>
+    <p>Fours: <input type="number" min="0" max="5" value="0" class="p1totals"></input></p>
+    <p>Fives: <input type="number" min="0" max="5" value="0" class="p1totals"></input></p>
+    <p>Sixes: <input type="number" min="0" max="5" value="0" class="p1totals"></input></p>
+    <h3 id="p1total">Total: 0</h3>
+    <h3>Bonus <input type="checkbox" id="p1bonus" value="35"></input></h3>
+    <!-- <h3>Total: 0<input type="number"></input></h3> -->
+    <hr>
+    <h3>Lower Section</h3>
+    <p>3 of a kind <input type="number" min="0" max="30" value="0"></input></p>
+    <p>4 of a kind <input type="number" min="0" max="30" value="0"></input></p>
+    <p>Full House <input type="checkbox" id="p1fullhouse" value="25"></input></p>
+    <p>Small Straight <input type="checkbox" id="p1smstraight" value="30"></input></p>
+    <p>Large Straight <input type="checkbox" id="p1lgstraight" value="40"></input></p>
+    <p>YAHTZEE <input type="checkbox" id="p1yahtzeescore" value="50"></input></p>
+    <p>Chance <input type="number" min="0" max="30" value="0"></input></p>
+    <p>YAHTZEE Bonus</p>
+    <hr>
+    <h3 id="p1uptotal2">Upper Total: 0</h3>
+    <h3 id="p1lwtotal">Lower Total: 0</h3>
+    <h3 id="p1grandtotal">Grand Total: 0</h3>
+  </div>
+  <div id="winningmsg">
+    <p id="score"></p>
+  </div>
+  <div id="scoresheet2">
+      <h2>Player 2</h2>
+      <hr>
+      <h3>Upper Section</h3>
+      <p>Ones: <input type="number" min="0" max="5" value="0" class="p2totals" id="p2ones"></input></p>
+      <p>Twos: <input type="number" min="0" max="5" value="0" class="p2totals"></input></p>
+      <p>Threes: <input type="number" min="0" max="5" value="0" class="p2totals"></input></p>
+      <p>Fours: <input type="number" min="0" max="5" value="0" class="p2totals"></input></p>
+      <p>Fives: <input type="number" min="0" max="5" value="0" class="p2totals"></input></p>
+      <p>Sixes: <input type="number" min="0" max="5" value="0" class="p2totals"></input></p>
+      <h3 id="p2total">Total: 0</h3>
+      <h3>Bonus <input type="checkbox" id="p2bonus" value="35"></input></h3>
+      <!-- <h3>Total: <input type="number"></input></h3> -->
+      <hr>
+      <h3>Lower Section</h3>
+      <p>3 of a kind <input type="number" min="0" max="30" value="0"></input></p>
+      <p>4 of a kind <input type="number" min="0" max="30" value="0"></input></p>
+      <p>Full House <input type="checkbox" id="p2fullhouse" value="25"></input></p>
+      <p>Small Straight <input type="checkbox" id="p2smstraight" value="30"></input></p>
+      <p>Large Straight <input type="checkbox" id="p2lgstraight" value="40"></input></p>
+      <p>YAHTZEE <input type="checkbox" id="p2yahtzeescore" value="50"></input></p>
+      <p>Chance <input type="number" min="0" max="30" value="0"></input></p>
+      <p>YAHTZEE Bonus</p>
+      <hr>
+      <h3 id="p2uptotal2">Upper Total: 0</h3>
+      <h3 id="p2lwtotal">Lower Total: 0</h3>
+      <h3 id="p2grandtotal">Grand Total: 0</h3>
+    </div>
+  <script src="js/script.js"></script>
+</body>
+</html>
+
+
+
+
