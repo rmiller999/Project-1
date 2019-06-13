@@ -39,12 +39,15 @@ var p1lwTotal;
 var p1bonus;
 var p1Checkbox;
 var scoresheet1;
+var p1ThreeKind;
+var p1FourKind;
 var p1FullHouse;
 var p1smStraight;
 var p1lgStraight;
 var p1yahtzeeScore;
 var p1grandTotal;
-var totalScore;
+var totalScore = 0;
+var p1Lower;
 
 var arr2;
 var p2ones;
@@ -58,7 +61,8 @@ var p2smStraight;
 var p2lgStraight;
 var p2yahtzeeScore;
 var p2grandTotal;
-var p2totalScore;
+var p2totalScore = 0;
+var p2Lower;
 
 document.addEventListener("DOMContentLoaded", function(e) {
   p1ones = document.getElementById("p1ones").value;
@@ -87,11 +91,14 @@ document.addEventListener("DOMContentLoaded", function(e) {
 
   arr = document.getElementsByClassName('p1totals');
   scoresheet1 = document.getElementById("scoresheet1");
+  p1ThreeKind = document.getElementById("p1threekind");
+  p1FourKind = document.getElementById("p1fourkind");
   p1FullHouse = document.getElementById("p1fullhouse");
   p1smStraight = document.getElementById("p1smstraight");
   p1lgStraight = document.getElementById("p1lgstraight");
   p1yahtzeeScore = document.getElementById("p1yahtzeescore");
   p1grandTotal= document.getElementById("p1grandtotal");
+  p1Lower = document.getElementsByClassName("p1lower");
 
   arr2 = document.getElementsByClassName('p2totals');
   p2ones = document.getElementById("p2ones").value;
@@ -104,13 +111,59 @@ document.addEventListener("DOMContentLoaded", function(e) {
   p2lgStraight = document.getElementById("p2lgstraight");
   p2yahtzeeScore = document.getElementById("p2yahtzeescore");
   p2grandTotal= document.getElementById("p2grandtotal");
+  p2Lower = document.getElementsByClassName("p2lower");
 
+  newGame.onclick = function() {
+    dice = {
+      dice1: {value: 0, hold: false},
+      dice2: {value: 0, hold: false},
+      dice3: {value: 0, hold: false},
+      dice4: {value: 0, hold: false},
+      dice5: {value: 0, hold: false}
+    }
+
+    reset.disabled = false;
+    roll.disabled = false;
+    
+    p1Turn = 13;
+    p2Turn = 13;
+    totalMoves = 26;
+
+    turns = 3;
+    scoreMsg.textContent = "";
+
+
+    // p1ones = "";
+    let tots = document.querySelectorAll('.p1totals')
+    tots.forEach( tot => tot.value = 0)
+    totalScore = 0;
+    p1uptotal.textContent = "Total: 0"
+    p1uptotal2.textContent = "Upper Total: 0";
+    p1lwTotal.textContent = "Lower Total: 0";
+    p1grandTotal.textContent = "Grand Total: 0"
+
+    p2totalScore = 0;
+    p2uptotal.textContent = "Total: 0";
+    p2uptotal2.textContent = "Upper Total: 0";
+    p2lwTotal.textContent = "Lower Total: 0";
+    p2grandTotal.textContent = "Grand Total: 0";
+    
+    
+  }
 
   for ( let el of arr) {
     el.addEventListener('change', findTotalPlayer1)
   }
 
+  for ( let el of p1Lower) {
+    el.addEventListener('change', findTotalPlayer1)
+  }
+
   for ( let el of arr2) {
+    el.addEventListener('change', findTotalPlayer2)
+  }
+
+  for ( let el of p2Lower) {
     el.addEventListener('change', findTotalPlayer2)
   }
 
@@ -175,11 +228,20 @@ document.addEventListener("DOMContentLoaded", function(e) {
       dice5.classList.remove("holddie1");
     }
   }
+
+  function checkWinning() {
+    if(totalScore > p2totalScore) {
+      scoreMsg.textContent = "Player 1 is Winning!";
+    } else if(p2totalScore > totalScore) {
+      scoreMsg.textContent = "Player 2 is Winning!";
+    }
+  }
   
   
   roll.onclick = function() {
     playerturn.textContent = "";
     rollDice();
+    checkWinning();
   }
   
   reset.onclick = function() {
@@ -231,15 +293,20 @@ document.addEventListener("DOMContentLoaded", function(e) {
   var small = 0;
   var large = 0;
   var yahtzeePoints = 0;
+  var lowerTot = 0;
   var finalLowerTotal = 0;
   totalScore = 0;
     for(var i=0;i<arr.length;i++){
       upperTot += parseInt(arr[i].value * (i+1));
     }
+    for(var i=0;i<p1Lower.length;i++){
+      lowerTot += parseInt(p1Lower[i].value);
+    }
       finalUpperTot = upperTot + bonus;
-      finalLowerTotal = full + small + large + yahtzeePoints;
+      finalLowerTotal = lowerTot + full + small + large + yahtzeePoints;
       p1uptotal.textContent = "Total: " + upperTot;
-      p1uptotal2.textContent = "Upper Total: " + finalUpperTot
+      p1uptotal2.textContent = "Upper Total: " + finalUpperTot;
+      p1lwTotal.textContent = "Lower Total: " + finalLowerTotal;
       totalScore = finalUpperTot + finalLowerTotal;
       p1grandTotal.textContent = "Grand Total: " + totalScore;
     p1Checkbox.addEventListener("click", function(e) {
@@ -249,12 +316,13 @@ document.addEventListener("DOMContentLoaded", function(e) {
         bonus -= 35;
       }
       finalUpperTot = upperTot + bonus;
-      finalLowerTotal = full + small + large +yahtzeePoints;
+      finalLowerTotal = lowerTot + full + small + large +yahtzeePoints;
       p1uptotal.textContent = "Total: " + upperTot;
       p1uptotal2.textContent = "Upper Total: " + finalUpperTot;
       p1lwTotal.textContent = "Lower Total: " + finalLowerTotal;
       totalScore = finalUpperTot + finalLowerTotal;
       p1grandTotal.textContent = "Grand Total: " + totalScore;
+      checkWinning();
     })
     p1FullHouse.addEventListener("click", function(e) {
       if (p1FullHouse.checked === true) {
@@ -263,12 +331,13 @@ document.addEventListener("DOMContentLoaded", function(e) {
         full -= 25;
       }
       finalUpperTot = upperTot + bonus;
-      finalLowerTotal = full + small + large + yahtzeePoints;
+      finalLowerTotal = lowerTot + full + small + large + yahtzeePoints;
       p1uptotal.textContent = "Total: " + upperTot;
       p1uptotal2.textContent = "Upper Total: " + finalUpperTot;
       p1lwTotal.textContent = "Lower Total: " + finalLowerTotal;
       totalScore = finalUpperTot + finalLowerTotal;
       p1grandTotal.textContent = "Grand Total: " + totalScore;
+      checkWinning();
     })
     p1smStraight.addEventListener("click", function(e) {
       if (p1smStraight.checked === true) {
@@ -277,12 +346,13 @@ document.addEventListener("DOMContentLoaded", function(e) {
         small -= 30;
       }
       finalUpperTot = upperTot + bonus;
-      finalLowerTotal = full + small + large + yahtzeePoints;
+      finalLowerTotal = lowerTot + full + small + large + yahtzeePoints;
       p1uptotal.textContent = "Total: " + upperTot;
       p1uptotal2.textContent = "Upper Total: " + finalUpperTot;
       p1lwTotal.textContent = "Lower Total: " + finalLowerTotal;
       totalScore = finalUpperTot + finalLowerTotal;
       p1grandTotal.textContent = "Grand Total: " + totalScore;
+      checkWinning();
   })
     p1lgStraight.addEventListener("click", function(e) {
       if (p1lgStraight.checked === true) {
@@ -291,12 +361,13 @@ document.addEventListener("DOMContentLoaded", function(e) {
         large -= 40;
       }
       finalUpperTot = upperTot + bonus;
-      finalLowerTotal = full + small + large + yahtzeePoints ;
+      finalLowerTotal = lowerTot + full + small + large + yahtzeePoints ;
       p1uptotal.textContent = "Total: " + upperTot;
       p1uptotal2.textContent = "Upper Total: " + finalUpperTot;
       p1lwTotal.textContent = "Lower Total: " + finalLowerTotal;
       totalScore = finalUpperTot + finalLowerTotal;
       p1grandTotal.textContent = "Grand Total: " + totalScore;
+      checkWinning();
   })
     p1yahtzeeScore.addEventListener("click", function(e) {
       if (p1yahtzeeScore.checked === true) {
@@ -305,12 +376,13 @@ document.addEventListener("DOMContentLoaded", function(e) {
         yahtzeePoints -= 50;
       }
       finalUpperTot = upperTot + bonus;
-      finalLowerTotal = full + small + large + yahtzeePoints ;
+      finalLowerTotal = lowerTot + full + small + large + yahtzeePoints ;
       p1uptotal.textContent = "Total: " + upperTot;
       p1uptotal2.textContent = "Upper Total: " + finalUpperTot;
       p1lwTotal.textContent = "Lower Total: " + finalLowerTotal;
       totalScore = finalUpperTot + finalLowerTotal;
       p1grandTotal.textContent = "Grand Total: " + totalScore;
+      checkWinning();
   })
 
   function checkWinning() {
@@ -333,16 +405,22 @@ document.addEventListener("DOMContentLoaded", function(e) {
     var p2large = 0;
     var p2yahtzeePoints = 0;
     var p2finalLowerTotal = 0;
+    var p2lowerTot = 0;
     p2totalScore = 0;
       for(var i=0;i<arr2.length;i++){
         p2upperTot += parseInt(arr2[i].value * (i+1));
       }
+      for(var i=0;i<p2Lower.length;i++){
+        p2lowerTot += parseInt(p2Lower[i].value);
+      }
         p2finalUpperTot = p2upperTot + p2bonus;
-        p2finalLowerTotal = p2full + p2small + p2large + p2yahtzeePoints;
+        p2finalLowerTotal = p2lowerTot + p2full + p2small + p2large + p2yahtzeePoints;
         p2uptotal.textContent = "Total: " + p2upperTot;
-        p2uptotal2.textContent = "Upper Total: " + p2finalUpperTot
+        p2uptotal2.textContent = "Upper Total: " + p2finalUpperTot;
+        p2lwTotal.textContent = "Lower Total: " + p2finalLowerTotal;
         p2totalScore = p2finalUpperTot + p2finalLowerTotal;
         p2grandTotal.textContent = "Grand Total: " + p2totalScore;
+        checkWinning();
       p2Checkbox.addEventListener("click", function(e) {
         if (p2Checkbox.checked === true) {
           p2bonus += 35;
@@ -356,6 +434,7 @@ document.addEventListener("DOMContentLoaded", function(e) {
         p2lwTotal.textContent = "Lower Total: " + p2finalLowerTotal;
         p2totalScore = p2finalUpperTot + p2finalLowerTotal;
         p2grandTotal.textContent = "Grand Total: " + p2totalScore;
+        checkWinning();
       })
       p2FullHouse.addEventListener("click", function(e) {
         if (p2FullHouse.checked === true) {
@@ -370,6 +449,8 @@ document.addEventListener("DOMContentLoaded", function(e) {
         p2lwTotal.textContent = "Lower Total: " + p2finalLowerTotal;
         p2totalScore = p2finalUpperTot + p2finalLowerTotal;
         p2grandTotal.textContent = "Grand Total: " + p2totalScore;
+        checkWinning();
+        
       })
       p2smStraight.addEventListener("click", function(e) {
         if (p2smStraight.checked === true) {
@@ -384,6 +465,7 @@ document.addEventListener("DOMContentLoaded", function(e) {
         p2lwTotal.textContent = "Lower Total: " + p2finalLowerTotal;
         p2totalScore = p2finalUpperTot + p2finalLowerTotal;
         p2grandTotal.textContent = "Grand Total: " + p2totalScore;
+        checkWinning();
     })
       p2lgStraight.addEventListener("click", function(e) {
         if (p2lgStraight.checked === true) {
@@ -398,6 +480,7 @@ document.addEventListener("DOMContentLoaded", function(e) {
         p2lwTotal.textContent = "Lower Total: " + p2finalLowerTotal;
         p2totalScore = p2finalUpperTot + p2finalLowerTotal;
         p2grandTotal.textContent = "Grand Total: " + p2totalScore;
+        checkWinning();
     })
       p2yahtzeeScore.addEventListener("click", function(e) {
         if (p2yahtzeeScore.checked === true) {
@@ -412,6 +495,7 @@ document.addEventListener("DOMContentLoaded", function(e) {
         p2lwTotal.textContent = "Lower Total: " + p2finalLowerTotal;
         p2totalScore = p2finalUpperTot + p2finalLowerTotal;
         p2grandTotal.textContent = "Grand Total: " + p2totalScore;
+        checkWinning();
     })
     console.log(totalScore);
     console.log(p2totalScore);
