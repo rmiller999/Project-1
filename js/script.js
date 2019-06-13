@@ -134,8 +134,14 @@ document.addEventListener("DOMContentLoaded", function(e) {
 
 
     // p1ones = "";
-    let tots = document.querySelectorAll('.p1totals')
-    tots.forEach( tot => tot.value = 0)
+    let p1tots = document.querySelectorAll('.p1totals')
+    p1tots.forEach( p1tot => p1tot.value = 0)
+
+    let p2tots = document.querySelectorAll('.p2totals')
+    p2tots.forEach( p2tot => p2tot.value = 0)
+
+    var boxes = document.querySelectorAll("input[type=checkbox]");
+    boxes.forEach( box => box.checked = false)
     totalScore = 0;
     p1uptotal.textContent = "Total: 0"
     p1uptotal2.textContent = "Upper Total: 0";
@@ -192,11 +198,6 @@ document.addEventListener("DOMContentLoaded", function(e) {
   }
   
   function displayDice() {
-    // dice1.textContent = dice.dice1.value;
-    // dice2.textContent = dice.dice2.value;
-    // dice3.textContent = dice.dice3.value;
-    // dice4.textContent = dice.dice4.value;
-    // dice5.textContent = dice.dice5.value;
     dice1.src = "img/dice" + dice.dice1.value + ".png";
     dice2.src = "img/dice" + dice.dice2.value + ".png";
     dice3.src = "img/dice" + dice.dice3.value + ".png";
@@ -539,6 +540,7 @@ document.addEventListener("DOMContentLoaded", function(e) {
       reset.disabled = true;
       roll.disabled = true;
       newGame.style.display = "inline";
+      playerturn.textContent = "";
 
 
     }
