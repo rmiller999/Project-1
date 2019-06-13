@@ -13,6 +13,11 @@ var diceImg4;
 var diceImg5;
 var rollsLeft;
 
+var p1Turn = 13;
+var p2Turn = 13;
+var totalMoves = 26;
+var newGame;
+
 var turns = 3;
 var dice1;
 var dice2;
@@ -78,6 +83,7 @@ document.addEventListener("DOMContentLoaded", function(e) {
   diceImg4 = document.getElementById("diceimg4");
   diceImg5 = document.getElementById("diceimg5");
   rollsLeft = document.getElementById("rollsleft");
+  newGame = document.getElementById("newgame");
 
   arr = document.getElementsByClassName('p1totals');
   scoresheet1 = document.getElementById("scoresheet1");
@@ -120,14 +126,16 @@ document.addEventListener("DOMContentLoaded", function(e) {
       displayDice();
       // rollDieImgs();
       turns--;
+      console.log(turns);
       rollsLeft.textContent = "Rolls Left: " + turns;
+    } else if (turns == 1) {
+      playerturn.textContent = "Next Players Turn!";
     } else if (turns == 0) {
-      console.log("next player");
+      playerturn.textContent = "Next Players Turn!";
       turns = 3;
       rollsLeft.textContent = "Rolls Left: " + turns;
       resetDice();
     }
-    console.log(turns);
   }
   
   function displayDice() {
@@ -199,10 +207,13 @@ document.addEventListener("DOMContentLoaded", function(e) {
     dice3.textContent = dice.dice3.value;
     dice4.textContent = dice.dice4.value;
     dice5.textContent = dice.dice5.value;
-    playerturn.textContent = "Next Players Turn!";
     turns = 3;
     rollsLeft.textContent = "Rolls Left: " + turns;
+    playerturn.textContent = "Next Players Turn!";
+    totalMoves--;
+    console.log(totalMoves);
     displayDice();
+    gameOver();
   }
   
   function yahtzee() {
@@ -301,6 +312,15 @@ document.addEventListener("DOMContentLoaded", function(e) {
       totalScore = finalUpperTot + finalLowerTotal;
       p1grandTotal.textContent = "Grand Total: " + totalScore;
   })
+
+  function checkWinning() {
+    if(totalScore > p2totalScore) {
+      scoreMsg.textContent = "Player 1 is Winning!";
+    } else if(p2totalScore > totalScore) {
+      scoreMsg.textContent = "Player 2 is Winning!";
+    }
+  }
+  checkWinning();
 }
 
 
@@ -393,14 +413,16 @@ document.addEventListener("DOMContentLoaded", function(e) {
         p2totalScore = p2finalUpperTot + p2finalLowerTotal;
         p2grandTotal.textContent = "Grand Total: " + p2totalScore;
     })
+    console.log(totalScore);
+    console.log(p2totalScore);
   
-    function checkWinning() {
-      if(totalScore > p2totalScore) {
-        scoreMsg.textContent = "Player 1 is Winning!";
-      } else if(p2totalScore > totalScore) {
-        scoreMsg.textContent = "Player 2 is Winning!";
-      }
+  function checkWinning() {
+    if(totalScore > p2totalScore) {
+      scoreMsg.textContent = "Player 1 is Winning!";
+    } else if(p2totalScore > totalScore) {
+      scoreMsg.textContent = "Player 2 is Winning!";
     }
+  }
   checkWinning();
 }
 
@@ -423,7 +445,20 @@ document.addEventListener("DOMContentLoaded", function(e) {
     }
   }
 
+  function gameOver() {
+    if (totalMoves === 0) {
+      if(totalScore > p2totalScore) {
+        scoreMsg.textContent = "Player 1 is the Winner!";
+      } else if(p2totalScore > totalScore) {
+        scoreMsg.textContent = "Player 2 is the Winner!";
+      }
+      reset.disabled = true;
+      roll.disabled = true;
+      newGame.style.display = "inline";
 
+
+    }
+  }
 
 
 

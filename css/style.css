@@ -194,3 +194,26 @@ iframe {
 button {
   cursor: pointer;
 }
+
+#newgame {
+  display: none;
+}
+
+.btn-3d.green {
+  border-radius: 15px;
+	background-color: #4caf50;
+	box-shadow: 0 0 0 1px #4caf50 inset,
+				0 0 0 2px rgba(255,255,255,0.15) inset,
+				0 8px 0 0 rgba(126, 194, 155, .7),
+				0 8px 0 1px rgba(0,0,0,.4),
+				0 8px 8px 1px rgba(0,0,0,0.5);
+}
+.btn-3d.green:active {
+	box-shadow: 0 0 0 1px #4caf50  inset,
+				0 0 0 2px rgba(255,255,255,0.15) inset,
+				0 0 0 1px rgba(0,0,0,0.4);
+}
+
+.btn-3d.red:focus {
+  outline: 0;
+}
